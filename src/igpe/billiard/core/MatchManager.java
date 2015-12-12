@@ -11,15 +11,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MatchManager {
 	public static final int HEIGHT = 800;
 	public static final int WIDTH = 1200;
-
-	public static int getHeight() {
-		return HEIGHT;
-	}
-
-	public static int getWidth() {
-		return WIDTH;
-	}
-
 	public static final int MAX_SIZE_SET_OF_BALL_PLAYER = 7;
 	public static final int MAX_WAIT_TIME_TO_PLAY_THE_TURN = 30;
 	private static final int MAX_TIME_TO_SHOOT_FOR_HARD_ARTIFICIAL_INTELLIGENCE = 20;
@@ -30,8 +21,7 @@ public class MatchManager {
 	private ArtificialIntelligence artificialIntelligence = new ArtificialIntelligence();
 	private Table table = new Table(200, 200);
 	private Stick stick = new Stick(0, 0, Direction.STOP);
-	private PowerIndicator powerIndicator = new PowerIndicator(1100, 200,
-			DirectionOfPower.NOTHING);
+	private PowerIndicator powerIndicator = new PowerIndicator(1100, 200, DirectionOfPower.NOTHING);
 	private WhiteBall whiteBall;
 	private Ball firstBall;
 	private Ball secondBall;
@@ -95,6 +85,14 @@ public class MatchManager {
 	private StringBuilder currentStatusTheGame;
 	private String disconnectedClientName;
 
+	public static int getHeight() {
+		return HEIGHT;
+	}
+
+	public static int getWidth() {
+		return WIDTH;
+	}
+
 	public MatchManager(final Modality modalityOfTheGame) {
 		this.modalityOfTheGame = modalityOfTheGame;
 		initializeObject();
@@ -106,8 +104,7 @@ public class MatchManager {
 		automaticWhiteBallDirection = Direction.STOP;
 		automaticStickDirection = Direction.STOP;
 		sounds = new CopyOnWriteArrayList<SoundsType>();
-		indexTable = FileProvider
-				.getCommand(NameofCommand.INDEX_TABLE_SELECTED);
+		indexTable = FileProvider.getCommand(NameofCommand.INDEX_TABLE_SELECTED);
 
 		if (iAmPlayingWithArtificialIntelligence)
 			artificialIntelligence.start(new Thread());
@@ -271,8 +268,7 @@ public class MatchManager {
 	}
 
 	public void setWhiteBallReposition() {
-		if (!physicsBallMovement
-				.checkThatThereAreNoOverlappingBalls(ballsOnTheTable))
+		if (!physicsBallMovement.checkThatThereAreNoOverlappingBalls(ballsOnTheTable))
 			this.repositionWhiteBall = false;
 		else
 			this.repositionWhiteBall = true;
@@ -289,8 +285,7 @@ public class MatchManager {
 		}
 	}
 
-	public void setRepositionWithMouse(
-			final boolean repositionWhiteBallWithTheMouse) {
+	public void setRepositionWithMouse(final boolean repositionWhiteBallWithTheMouse) {
 		this.repositionWhiteBallWithTheMouse = repositionWhiteBallWithTheMouse;
 	}
 
@@ -342,21 +337,18 @@ public class MatchManager {
 
 	public void loadRescueFromSavedGame(final int indexOfRescue) {
 		currentStatusTheGame = new StringBuilder("");
-		currentStatusTheGame.append(FileProvider.getRescueContent(
-				indexOfRescue, GameMode.MATCH));
+		currentStatusTheGame.append(FileProvider.getRescueContent(indexOfRescue, GameMode.MATCH));
 		resumeAllObjectTheGame();
 	}
 
 	public void loadRescueFromCreatedLevel(final int rescue) {
 		currentStatusTheGame = new StringBuilder("");
-		currentStatusTheGame.append(FileProvider.getRescueContent(rescue,
-				GameMode.EDITOR));
+		currentStatusTheGame.append(FileProvider.getRescueContent(rescue, GameMode.EDITOR));
 		resumeAllObjectTheGameFromCreatedLevel();
 	}
 
 	public void parseStatusFromString(final String currentStatus) {
-		if (!currentStatus.contains("#WIN")
-				&& !currentStatus.contains("#ConnectionClosed")) {
+		if (!currentStatus.contains("#WIN") && !currentStatus.contains("#ConnectionClosed")) {
 			this.currentStatusTheGame.delete(0, currentStatusTheGame.length());
 			this.currentStatusTheGame.append(currentStatus);
 			resumeAllObjectTheGame();
@@ -393,25 +385,18 @@ public class MatchManager {
 		secondPlayer.setWin(Boolean.parseBoolean(result[counter++]));
 		firstPlayer.setMakeFoul(Boolean.parseBoolean(result[counter++]));
 		secondPlayer.setMakeFoul(Boolean.parseBoolean(result[counter++]));
-		setEasyArtificialIntelligenceParameters = Boolean
-				.parseBoolean(result[counter++]);
-		iAmPlayingWithArtificialIntelligence = Boolean
-				.parseBoolean(result[counter++]);
-		iAmPlayingWithEasyArtificialIntelligence = Boolean
-				.parseBoolean(result[counter++]);
-		iAmPlayingWithMediumArtificialIntelligence = Boolean
-				.parseBoolean(result[counter++]);
-		iAmPlayingWithHardArtificialIntelligence = Boolean
-				.parseBoolean(result[counter++]);
+		setEasyArtificialIntelligenceParameters = Boolean.parseBoolean(result[counter++]);
+		iAmPlayingWithArtificialIntelligence = Boolean.parseBoolean(result[counter++]);
+		iAmPlayingWithEasyArtificialIntelligence = Boolean.parseBoolean(result[counter++]);
+		iAmPlayingWithMediumArtificialIntelligence = Boolean.parseBoolean(result[counter++]);
+		iAmPlayingWithHardArtificialIntelligence = Boolean.parseBoolean(result[counter++]);
 		iAmPlayingMeVsMe = Boolean.parseBoolean(result[counter++]);
 		int colorBall = Integer.parseInt(result[counter++]);
 		firstPlayer.setColorBall(resumeColorBall(colorBall));
 		colorBall = Integer.parseInt(result[counter++]);
 		secondPlayer.setColorBall(resumeColorBall(colorBall));
-		autoEasyShootArtificialIntelligence = Integer
-				.parseInt(result[counter++]);
-		actualCounterForRepositionWhiteBall = Integer
-				.parseInt(result[counter++]);
+		autoEasyShootArtificialIntelligence = Integer.parseInt(result[counter++]);
+		actualCounterForRepositionWhiteBall = Integer.parseInt(result[counter++]);
 		lastCounterForRepositionWhiteBall = Integer.parseInt(result[counter++]);
 		chronometerOfTheTurn.resume(Long.parseLong(result[counter++]));
 		chronometerOfTheMatch.resume(Long.parseLong(result[counter++]));
@@ -420,7 +405,7 @@ public class MatchManager {
 		stick.setAngleOfRotation(Double.parseDouble(result[counter++]));
 		stick.setHit(Boolean.parseBoolean(result[counter++]));
 		autoEasyShootPower = Double.parseDouble(result[counter++]);
-	
+
 		powerIndicator.setPower(Double.parseDouble(result[counter++]));
 		counter = 0;
 	}
@@ -452,10 +437,8 @@ public class MatchManager {
 			secondPlayer.setName("MevsMe");
 		}
 
-		secondPlayer.setColorBall(resumeColorBall(Integer
-				.parseInt(result[counter++])));
-		firstPlayer.setColorBall(resumeColorBall(Integer
-				.parseInt(result[counter++])));
+		secondPlayer.setColorBall(resumeColorBall(Integer.parseInt(result[counter++])));
+		firstPlayer.setColorBall(resumeColorBall(Integer.parseInt(result[counter++])));
 	}
 
 	private Ball resumeSingleBall(String[] result) {
@@ -474,11 +457,9 @@ public class MatchManager {
 	private void resumeBallsOnTheTable(final String[] result) {
 		final int countYellowBalls = Integer.parseInt(result[counter++]);
 		final int countRedBalls = Integer.parseInt(result[counter++]);
-		final int sizeListOfBallsOnTheTable = Integer
-				.parseInt(result[counter++]);
+		final int sizeListOfBallsOnTheTable = Integer.parseInt(result[counter++]);
 		indexTable = Integer.parseInt(result[counter++]);
-		FileProvider.setOnlyCommand(NameofCommand.INDEX_TABLE_SELECTED,
-				indexTable);
+		FileProvider.setOnlyCommand(NameofCommand.INDEX_TABLE_SELECTED, indexTable);
 		for (int index = 0; index < sizeListOfBallsOnTheTable; index++) {
 			Ball ball = new Ball(resumeSingleBall(result));
 			if (ball.getIdentificativeNumber() == 0) {
@@ -527,16 +508,13 @@ public class MatchManager {
 
 	public void updateCurrentStatusTheGame() {
 		currentStatusTheGame = new StringBuilder("");
-		if (modalityOfTheGame == Modality.OFFLINE
-				|| modalityOfTheGame == Modality.ONLINE && !disconnected) {
+		if (modalityOfTheGame == Modality.OFFLINE || modalityOfTheGame == Modality.ONLINE && !disconnected) {
 			currentStatusTheGame.append(chronometerFoul.getElapsedTime() + ";");
-			checkIfIsPossibleResetChronometerFoul((int) chronometerFoul
-					.getElapsedTime());
+			checkIfIsPossibleResetChronometerFoul((int) chronometerFoul.getElapsedTime());
 			currentStatusTheGame.append(yellowBalls.size() + ";");
 			currentStatusTheGame.append(redBalls.size() + ";");
 			currentStatusTheGame.append(ballsOnTheTable.size() + ";");
-			currentStatusTheGame.append(FileProvider
-					.getCommand(NameofCommand.INDEX_TABLE_SELECTED) + ";");
+			currentStatusTheGame.append(FileProvider.getCommand(NameofCommand.INDEX_TABLE_SELECTED) + ";");
 			for (Ball b : ballsOnTheTable)
 				saveCurrentStatusTheBall(b);
 
@@ -566,16 +544,11 @@ public class MatchManager {
 			currentStatusTheGame.append(secondPlayer.isWin() + ";");
 			currentStatusTheGame.append(firstPlayer.isMakeFoul() + ";");
 			currentStatusTheGame.append(secondPlayer.isMakeFoul() + ";");
-			currentStatusTheGame.append(setEasyArtificialIntelligenceParameters
-					+ ";");
-			currentStatusTheGame.append(iAmPlayingWithArtificialIntelligence
-					+ ";");
-			currentStatusTheGame
-					.append(iAmPlayingWithEasyArtificialIntelligence + ";");
-			currentStatusTheGame
-					.append(iAmPlayingWithMediumArtificialIntelligence + ";");
-			currentStatusTheGame
-					.append(iAmPlayingWithHardArtificialIntelligence + ";");
+			currentStatusTheGame.append(setEasyArtificialIntelligenceParameters + ";");
+			currentStatusTheGame.append(iAmPlayingWithArtificialIntelligence + ";");
+			currentStatusTheGame.append(iAmPlayingWithEasyArtificialIntelligence + ";");
+			currentStatusTheGame.append(iAmPlayingWithMediumArtificialIntelligence + ";");
+			currentStatusTheGame.append(iAmPlayingWithHardArtificialIntelligence + ";");
 			currentStatusTheGame.append(iAmPlayingMeVsMe + ";");
 
 			if (firstPlayer.getColorBall().equals(ColorBall.RED))
@@ -592,47 +565,36 @@ public class MatchManager {
 			else
 				currentStatusTheGame.append("3" + ";");
 
-			currentStatusTheGame.append(autoEasyShootArtificialIntelligence
-					+ ";");
-			currentStatusTheGame.append(actualCounterForRepositionWhiteBall
-					+ ";");
-			currentStatusTheGame
-					.append(lastCounterForRepositionWhiteBall + ";");
-			currentStatusTheGame.append(chronometerOfTheTurn.getElapsedTime()
-					+ ";");
-			currentStatusTheGame.append(chronometerOfTheMatch.getElapsedTime()
-					+ ";");
+			currentStatusTheGame.append(autoEasyShootArtificialIntelligence + ";");
+			currentStatusTheGame.append(actualCounterForRepositionWhiteBall + ";");
+			currentStatusTheGame.append(lastCounterForRepositionWhiteBall + ";");
+			currentStatusTheGame.append(chronometerOfTheTurn.getElapsedTime() + ";");
+			currentStatusTheGame.append(chronometerOfTheMatch.getElapsedTime() + ";");
 			currentStatusTheGame.append(stick.getX() + ";");
 			currentStatusTheGame.append(stick.getY() + ";");
 			currentStatusTheGame.append(stick.getAngleOfRotation() + ";");
 			currentStatusTheGame.append(stick.getIsHit() + ";");
 			currentStatusTheGame.append(autoEasyShootPower + ";");
-		
-			currentStatusTheGame.append(powerIndicator.getPower()+";");
+
+			currentStatusTheGame.append(powerIndicator.getPower() + ";");
 		}
 
 		else if (modalityOfTheGame == Modality.ONLINE && disconnected)
-			currentStatusTheGame.append(disconnectedClientName + ":"
-					+ "#ConnectionClosed");
+			currentStatusTheGame.append(disconnectedClientName + ":" + "#ConnectionClosed");
 
-		if (modalityOfTheGame == Modality.ONLINE
-				&& (firstPlayer.isWin() || secondPlayer.isWin())
-				&& !disconnected) {
+		if (modalityOfTheGame == Modality.ONLINE && (firstPlayer.isWin() || secondPlayer.isWin()) && !disconnected) {
 			currentStatusTheGame = new StringBuilder("");
 			if (firstPlayer.isWin())
-				currentStatusTheGame.append(firstPlayer.getName() + ":"
-						+ "#WIN");
+				currentStatusTheGame.append(firstPlayer.getName() + ":" + "#WIN");
 			else
-				currentStatusTheGame.append(secondPlayer.getName() + ":"
-						+ "#WIN");
+				currentStatusTheGame.append(secondPlayer.getName() + ":" + "#WIN");
 		}
 	}
 
 	private void saveCurrentStatusTheBall(final Ball ball) {
-		currentStatusTheGame.append(ball.getIdentificativeNumber() + ";"
-				+ ball.getX() + ";" + ball.getY() + ";" + ball.getCx() + ";"
-				+ ball.getCy() + ";" + ball.getVelocityXAxis() + ";"
-				+ ball.getVelocityYAxis() + ";");
+		currentStatusTheGame
+				.append(ball.getIdentificativeNumber() + ";" + ball.getX() + ";" + ball.getY() + ";" + ball.getCx()
+						+ ";" + ball.getCy() + ";" + ball.getVelocityXAxis() + ";" + ball.getVelocityYAxis() + ";");
 	}
 
 	private void callStep() {
@@ -773,17 +735,13 @@ public class MatchManager {
 		if (!ballsCollided.isEmpty()) {
 			Ball ball = ballsCollided.get(0);
 			if (ball.getIdentificativeNumber() <= 7
-					&& (firstPlayer.getColorBall() == ColorBall.RED
-							&& firstPlayer.isTurn() || secondPlayer
-							.getColorBall() == ColorBall.RED
-							&& secondPlayer.isTurn())) {
+					&& (firstPlayer.getColorBall() == ColorBall.RED && firstPlayer.isTurn()
+							|| secondPlayer.getColorBall() == ColorBall.RED && secondPlayer.isTurn())) {
 				return true;
 			}
 			if (ball.getIdentificativeNumber() >= 9
-					&& (firstPlayer.getColorBall() == ColorBall.YELLOW
-							&& firstPlayer.isTurn() || secondPlayer
-							.getColorBall() == ColorBall.YELLOW
-							&& secondPlayer.isTurn())) {
+					&& (firstPlayer.getColorBall() == ColorBall.YELLOW && firstPlayer.isTurn()
+							|| secondPlayer.getColorBall() == ColorBall.YELLOW && secondPlayer.isTurn())) {
 				return true;
 			}
 		}
@@ -805,15 +763,13 @@ public class MatchManager {
 
 	private boolean checkIfIsPocketedABallOfMyColor() {
 		for (Ball ball : ballsPocketed) {
-			if ((firstPlayer.getColorBall() == ColorBall.YELLOW && firstPlayer
-					.isTurn())
-					|| (secondPlayer.getColorBall() == ColorBall.YELLOW && secondPlayer
-							.isTurn()) && ball.getIdentificativeNumber() <= 7)
+			if ((firstPlayer.getColorBall() == ColorBall.YELLOW && firstPlayer.isTurn())
+					|| (secondPlayer.getColorBall() == ColorBall.YELLOW && secondPlayer.isTurn())
+							&& ball.getIdentificativeNumber() <= 7)
 				return true;
-			if ((firstPlayer.getColorBall() == ColorBall.RED && firstPlayer
-					.isTurn())
-					|| (secondPlayer.getColorBall() == ColorBall.RED && secondPlayer
-							.isTurn()) && ball.getIdentificativeNumber() >= 9)
+			if ((firstPlayer.getColorBall() == ColorBall.RED && firstPlayer.isTurn())
+					|| (secondPlayer.getColorBall() == ColorBall.RED && secondPlayer.isTurn())
+							&& ball.getIdentificativeNumber() >= 9)
 				return true;
 		}
 		return false;
@@ -860,12 +816,13 @@ public class MatchManager {
 			if (ball.getIdentificativeNumber() == 8) {
 				chronometerForTheWinOrLose.start();
 				if (firstPlayer.isTurn()) {
-					if ((firstPlayer.getColorBall() == ColorBall.RED && ((redBalls
-							.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel && redBalls
-							.size() == maxSizeOfRedBallForLevelEdited)))
-							|| (firstPlayer.getColorBall() == ColorBall.YELLOW && ((yellowBalls
-									.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel && yellowBalls
-									.size() == maxSizeSetOfYellowBallForLevelEdited)))) {
+					if ((firstPlayer.getColorBall() == ColorBall.RED
+							&& ((redBalls.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel
+									&& redBalls.size() == maxSizeOfRedBallForLevelEdited)))
+							|| (firstPlayer.getColorBall() == ColorBall.YELLOW
+									&& ((yellowBalls.size() == MAX_SIZE_SET_OF_BALL_PLAYER)
+											|| (iAmPlayingWithACreatedLevel
+													&& yellowBalls.size() == maxSizeSetOfYellowBallForLevelEdited)))) {
 						firstPlayer.setWin(true);
 						secondPlayer.setWin(false);
 					} else {
@@ -874,12 +831,13 @@ public class MatchManager {
 					}
 				}
 				if (secondPlayer.isTurn()) {
-					if ((secondPlayer.getColorBall() == ColorBall.RED && ((redBalls
-							.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel && redBalls
-							.size() == maxSizeOfRedBallForLevelEdited)))
-							|| (secondPlayer.getColorBall() == ColorBall.YELLOW && ((yellowBalls
-									.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel && yellowBalls
-									.size() == maxSizeSetOfYellowBallForLevelEdited)))) {
+					if ((secondPlayer.getColorBall() == ColorBall.RED
+							&& ((redBalls.size() == MAX_SIZE_SET_OF_BALL_PLAYER) || (iAmPlayingWithACreatedLevel
+									&& redBalls.size() == maxSizeOfRedBallForLevelEdited)))
+							|| (secondPlayer.getColorBall() == ColorBall.YELLOW
+									&& ((yellowBalls.size() == MAX_SIZE_SET_OF_BALL_PLAYER)
+											|| (iAmPlayingWithACreatedLevel
+													&& yellowBalls.size() == maxSizeSetOfYellowBallForLevelEdited)))) {
 
 						firstPlayer.setWin(false);
 						secondPlayer.setWin(true);
@@ -894,8 +852,7 @@ public class MatchManager {
 	}
 
 	private boolean checkIfICanMoveCommands() {
-		if (iAmPlayingWithArtificialIntelligence && firstPlayer.isTurn()
-				|| !iAmPlayingWithArtificialIntelligence)
+		if (iAmPlayingWithArtificialIntelligence && firstPlayer.isTurn() || !iAmPlayingWithArtificialIntelligence)
 			return true;
 		return false;
 	}
@@ -991,10 +948,8 @@ public class MatchManager {
 			} else {
 				stick.setHit(true);
 				chronometerOfTheTurn.stop();
-				whiteBall.setVelocityXAxis(powerIndicator.getPower()
-						* (-Math.sin(stick.getAngleOfRotation())));
-				whiteBall.setVelocityYAxis(powerIndicator.getPower()
-						* (-Math.cos(stick.getAngleOfRotation())));
+				whiteBall.setVelocityXAxis(powerIndicator.getPower() * (-Math.sin(stick.getAngleOfRotation())));
+				whiteBall.setVelocityYAxis(powerIndicator.getPower() * (-Math.cos(stick.getAngleOfRotation())));
 				thinking = true;
 			}
 		}
@@ -1003,8 +958,7 @@ public class MatchManager {
 	public void update() {
 		if (repositionWhiteBall)
 			howToRepositionWhiteBall();
-		else if (!repositionWhiteBall && !firstPlayer.isWin()
-				&& !secondPlayer.isWin()) {
+		else if (!repositionWhiteBall && !firstPlayer.isWin() && !secondPlayer.isWin()) {
 			actualCounterForRepositionWhiteBall = 0;
 			lastCounterForRepositionWhiteBall = 0;
 			powerIndicator.update();
@@ -1012,8 +966,7 @@ public class MatchManager {
 				if (modalityOfTheGame == Modality.ONLINE)
 					stick.setHit(false);
 
-				stick.initializeStickPosition(getWhiteball().getX(),
-						getWhiteball().getY());
+				stick.initializeStickPosition(getWhiteball().getX(), getWhiteball().getY());
 			}
 			callStep();
 			ballsUpdate();
@@ -1024,15 +977,11 @@ public class MatchManager {
 
 	private void stickUpdateAndSetWhiteBallVelocity() {
 		if (!stick.getIsHit())
-			stick.update(getWhiteball().getX() + Ball.DIAMETER / 2,
-					getWhiteball().getY() + Ball.DIAMETER / 2);
-		else if (stick.getIsHit() && !thinking
-				&& modalityOfTheGame == Modality.OFFLINE) {
+			stick.update(getWhiteball().getX() + Ball.DIAMETER / 2, getWhiteball().getY() + Ball.DIAMETER / 2);
+		else if (stick.getIsHit() && !thinking && modalityOfTheGame == Modality.OFFLINE) {
 			chronometerOfTheTurn.stop();
-			whiteBall.setVelocityXAxis(powerIndicator.getPower()
-					* (-Math.sin(stick.getAngleOfRotation())));
-			whiteBall.setVelocityYAxis(powerIndicator.getPower()
-					* (-Math.cos(stick.getAngleOfRotation())));
+			whiteBall.setVelocityXAxis(powerIndicator.getPower() * (-Math.sin(stick.getAngleOfRotation())));
+			whiteBall.setVelocityYAxis(powerIndicator.getPower() * (-Math.cos(stick.getAngleOfRotation())));
 			thinking = true;
 
 			if (modalityOfTheGame == Modality.OFFLINE)
@@ -1045,28 +994,23 @@ public class MatchManager {
 			physicsBallMovement.updateBallPosition(ball);
 		for (Ball firstBall : ballsOnTheTable) {
 			for (Ball secondBall : ballsOnTheTable) {
-				if ((physicsBallMovement.detectCollision(firstBall, secondBall) || physicsBallMovement
-						.detectNextCollision(firstBall, secondBall))
-						&& firstBall.getIdentificativeNumber() != secondBall
-								.getIdentificativeNumber()) {
+				if ((physicsBallMovement.detectCollision(firstBall, secondBall)
+						|| physicsBallMovement.detectNextCollision(firstBall, secondBall))
+						&& firstBall.getIdentificativeNumber() != secondBall.getIdentificativeNumber()) {
 					addSoundsCollision();
 					physicsBallMovement.handleCollision(firstBall, secondBall);
-					physicsBallMovement.detectIfIsPocket(firstBall,
-							ballsOnTheTable, ballsPocketed, redBalls,
+					physicsBallMovement.detectIfIsPocket(firstBall, ballsOnTheTable, ballsPocketed, redBalls,
 							yellowBalls, table);
 					if (firstBall.getIsPocketed())
 						sounds.add(SoundsType.POCKET);
 					else
-						physicsBallMovement.checkBorderCollision(firstBall,
-								table);
-					physicsBallMovement.detectIfIsPocket(secondBall,
-							ballsOnTheTable, ballsPocketed, redBalls,
+						physicsBallMovement.checkBorderCollision(firstBall, table);
+					physicsBallMovement.detectIfIsPocket(secondBall, ballsOnTheTable, ballsPocketed, redBalls,
 							yellowBalls, table);
 					if (secondBall.getIsPocketed())
 						sounds.add(SoundsType.POCKET);
 					else
-						physicsBallMovement.checkBorderCollision(secondBall,
-								table);
+						physicsBallMovement.checkBorderCollision(secondBall, table);
 					physicsBallMovement.decreaseVelocityOfBall(secondBall);
 					if (firstBall.getIdentificativeNumber() != 0)
 						ballsCollided.add(firstBall);
@@ -1075,8 +1019,8 @@ public class MatchManager {
 				}
 			}
 			physicsBallMovement.checkBorderCollision(firstBall, table);
-			physicsBallMovement.detectIfIsPocket(firstBall, ballsOnTheTable,
-					ballsPocketed, redBalls, yellowBalls, table);
+			physicsBallMovement.detectIfIsPocket(firstBall, ballsOnTheTable, ballsPocketed, redBalls, yellowBalls,
+					table);
 			if (firstBall.getIsPocketed())
 				sounds.add(SoundsType.POCKET);
 			physicsBallMovement.decreaseVelocityOfBall(firstBall);
@@ -1189,9 +1133,7 @@ public class MatchManager {
 				resetWhiteBallPosition();
 			actualCounterForRepositionWhiteBall++;
 			if (repositionWhiteBallWithTheMouse
-					&& physicsBallMovement
-							.checkThatTheBallDoesNotExceedTheEdgesOfTheTable(
-									xMouse, yMouse, table))
+					&& physicsBallMovement.checkThatTheBallDoesNotExceedTheEdgesOfTheTable(xMouse, yMouse, table))
 				whiteBall.updateUsingMouse(xMouse, yMouse);
 			else
 				whiteBall.update(table.getX(), table.getY());
@@ -1211,11 +1153,9 @@ public class MatchManager {
 				} else {
 					actualCounterForRepositionWhiteBall++;
 					selectWhiteBallDirection();
-					whiteBall.automaticUpdate(table.getX(), table.getY(),
-							automaticWhiteBallDirection);
+					whiteBall.automaticUpdate(table.getX(), table.getY(), automaticWhiteBallDirection);
 					if (actualCounterForRepositionWhiteBall >= 150
-							&& !physicsBallMovement
-									.checkThatThereAreNoOverlappingBalls(ballsOnTheTable)) {
+							&& !physicsBallMovement.checkThatThereAreNoOverlappingBalls(ballsOnTheTable)) {
 						repositionWhiteBall = false;
 						actualCounterForRepositionWhiteBall = 0;
 						lastCounterForRepositionWhiteBall = 0;
@@ -1228,8 +1168,7 @@ public class MatchManager {
 	}
 
 	public void selectWhiteBallDirection() {
-		if (Math.abs(actualCounterForRepositionWhiteBall
-				- lastCounterForRepositionWhiteBall) == 15) {
+		if (Math.abs(actualCounterForRepositionWhiteBall - lastCounterForRepositionWhiteBall) == 15) {
 			lastCounterForRepositionWhiteBall = actualCounterForRepositionWhiteBall;
 			Random randomGenerator = new Random();
 			int direction = randomGenerator.nextInt(4);
@@ -1276,20 +1215,18 @@ public class MatchManager {
 
 	private void autoStickUpdateForArtificialIntelligence() {
 		if (iAmPlayingWithEasyArtificialIntelligence)
-			stick.automaticUpdate(whiteBall.getX() + Ball.DIAMETER / 2,
-					whiteBall.getY() + Ball.DIAMETER / 2,
+			stick.automaticUpdate(whiteBall.getX() + Ball.DIAMETER / 2, whiteBall.getY() + Ball.DIAMETER / 2,
 					automaticStickDirection);
 		else
-			stick.automaticUpdate(whiteBall.getX() + Ball.DIAMETER / 2,
-					whiteBall.getY() + Ball.DIAMETER / 2, Direction.RIGHT);
+			stick.automaticUpdate(whiteBall.getX() + Ball.DIAMETER / 2, whiteBall.getY() + Ball.DIAMETER / 2,
+					Direction.RIGHT);
 	}
 
 	private void setEasyArtificialIntelligenceStickDirectionAndSecondOfShoot() {
 		if (setEasyArtificialIntelligenceParameters) {
 			setEasyArtificialIntelligenceParameters = false;
 			Random randomGenerator = new Random();
-			int randomInt = randomGenerator
-					.nextInt(MAX_WAIT_TIME_TO_PLAY_THE_TURN);
+			int randomInt = randomGenerator.nextInt(MAX_WAIT_TIME_TO_PLAY_THE_TURN);
 			if (randomInt <= 3)
 				randomInt = randomInt + 4;
 			else if (randomInt == MAX_WAIT_TIME_TO_PLAY_THE_TURN)
@@ -1317,10 +1254,8 @@ public class MatchManager {
 			stick.setHit(true);
 			chronometerOfTheTurn.stop();
 			if (stick.getIsHit() && !thinking) {
-				whiteBall.setVelocityXAxis(autoEasyShootPower
-						* (-Math.sin(stick.getAngleOfRotation())));
-				whiteBall.setVelocityYAxis(autoEasyShootPower
-						* (-Math.cos(stick.getAngleOfRotation())));
+				whiteBall.setVelocityXAxis(autoEasyShootPower * (-Math.sin(stick.getAngleOfRotation())));
+				whiteBall.setVelocityYAxis(autoEasyShootPower * (-Math.cos(stick.getAngleOfRotation())));
 				thinking = true;
 				stick.setHit(false);
 			}
@@ -1328,33 +1263,27 @@ public class MatchManager {
 	}
 
 	private void mediumArtificialIntelligence() {
-		List<Ball> balls = new CopyOnWriteArrayList<Ball>(
-				copyListOfBallsOnTheTable());
+		List<Ball> balls = new CopyOnWriteArrayList<Ball>(copyListOfBallsOnTheTable());
 		boolean result = false;
 		powerIndicator.autoUpdate(22);
 		if (!stick.getIsHit() && !result)
 			autoStickUpdateForArtificialIntelligence();
 
-		result = artificialIntelligence
-				.calculateResultForMediumArtificialIntelligence(table, balls,
-						stick.getAngleOfRotation(), secondPlayer,
-						copyYellowBalls(), copyRedBalls());
+		result = artificialIntelligence.calculateResultForMediumArtificialIntelligence(table, balls,
+				stick.getAngleOfRotation(), secondPlayer, copyYellowBalls(), copyRedBalls());
 		if (result)
 			stickShootforMediumAndHardArtificialIntelligence();
 	}
 
 	private void hardArtificialIntelligence() {
-		List<Ball> balls = new CopyOnWriteArrayList<Ball>(
-				copyListOfBallsOnTheTable());
+		List<Ball> balls = new CopyOnWriteArrayList<Ball>(copyListOfBallsOnTheTable());
 		boolean result = false;
 		powerIndicator.autoUpdate(22);
 		if (!stick.getIsHit() && !result)
 			autoStickUpdateForArtificialIntelligence();
 
-		result = artificialIntelligence
-				.calculateResultForHardArtificialIntelligence(table, balls,
-						stick.getAngleOfRotation(), secondPlayer,
-						copyYellowBalls(), copyRedBalls());
+		result = artificialIntelligence.calculateResultForHardArtificialIntelligence(table, balls,
+				stick.getAngleOfRotation(), secondPlayer, copyYellowBalls(), copyRedBalls());
 		if (result)
 			stickShootforMediumAndHardArtificialIntelligence();
 	}
@@ -1363,10 +1292,8 @@ public class MatchManager {
 		stick.setHit(true);
 		chronometerOfTheTurn.stop();
 		if (stick.getIsHit() && !thinking) {
-			whiteBall.setVelocityXAxis(22 * (-Math.sin(stick
-					.getAngleOfRotation())));
-			whiteBall.setVelocityYAxis(22 * (-Math.cos(stick
-					.getAngleOfRotation())));
+			whiteBall.setVelocityXAxis(22 * (-Math.sin(stick.getAngleOfRotation())));
+			whiteBall.setVelocityYAxis(22 * (-Math.cos(stick.getAngleOfRotation())));
 			thinking = true;
 			stick.setHit(false);
 		}
@@ -1395,8 +1322,7 @@ public class MatchManager {
 		List<Ball> balls = new CopyOnWriteArrayList<Ball>();
 		if (!yellowBalls.isEmpty())
 			for (Ball ball : yellowBalls) {
-				Ball temporaryBall = new Ball(ball.getX(), ball.getY(),
-						ball.getIdentificativeNumber());
+				Ball temporaryBall = new Ball(ball.getX(), ball.getY(), ball.getIdentificativeNumber());
 				balls.add(temporaryBall);
 			}
 		return balls;
@@ -1406,8 +1332,7 @@ public class MatchManager {
 		List<Ball> balls = new CopyOnWriteArrayList<Ball>();
 		if (!redBalls.isEmpty())
 			for (Ball ball : redBalls) {
-				Ball temporaryBall = new Ball(ball.getX(), ball.getY(),
-						ball.getIdentificativeNumber());
+				Ball temporaryBall = new Ball(ball.getX(), ball.getY(), ball.getIdentificativeNumber());
 				balls.add(temporaryBall);
 			}
 		return balls;
@@ -1416,8 +1341,7 @@ public class MatchManager {
 	private List<Ball> copyListOfBallsOnTheTable() {
 		List<Ball> balls = new CopyOnWriteArrayList<Ball>();
 		for (Ball ball : ballsOnTheTable) {
-			Ball temporaryBall = new Ball(ball.getX(), ball.getY(),
-					ball.getIdentificativeNumber());
+			Ball temporaryBall = new Ball(ball.getX(), ball.getY(), ball.getIdentificativeNumber());
 			balls.add(temporaryBall);
 		}
 		return balls;
