@@ -1,0 +1,7 @@
+package igpe.billiard.core;
+
+public enum NameofCommand {
+	
+		PAUSE,HIT,DIRECTION_RIGHT,DIRECTION_LEFT,INCREMENT_POWER,DECREMENT_POWER, INDEX_TABLE_SELECTED;
+	
+}
