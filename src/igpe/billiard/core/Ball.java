@@ -3,17 +3,18 @@ package igpe.billiard.core;
 public class Ball extends AbstractMovableObject {
 
 	protected static final int DIAMETER = 20;
-
-	public static int getDiameter() {
-		return DIAMETER;
-	}
-
 	private double cX;
 	private double cY;
 	private int identificativeNumber;
 	private boolean isPocketed;
 	private double velocityXAxis;
 	private double velocityYAxis;
+
+	
+	public static int getDiameter() {
+		return DIAMETER;
+	}
+
 
 
 	public Ball(final int x, final int y, final int identificativeNumber) {

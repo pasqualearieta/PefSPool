@@ -41,9 +41,10 @@ public class Chronometer {
 	}
 
 	public void resume(long b) {
-		b = b * 1000;
+		long value=b;
+		value = value * 1000;
 		elapsedTime = 0;
-		startTime = System.currentTimeMillis() - b;
+		startTime = System.currentTimeMillis() -value;
 
 	}
 
